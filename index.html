@@ -1,100 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>SL ANIME LK</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
-
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #111;
-      color: #fff;
-      text-align: center;
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    :root{
+      --bg:#0f1113; --card:#161719; --accent:#ffcc00; --muted:#bdbdbd;
+      --maxw:980px;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0; font-family:'Poppins',sans-serif; background:var(--bg); color:#fff;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    /* Header */
+    header{
+      min-height:220px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; padding:18px;
+      background:#222 center/cover no-repeat;
+      position:relative;
+    }
+    header .overlay{
+      position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,0.45),rgba(0,0,0,0.6));
+    }
+    header h1{
+      margin:0; z-index:2; font-size:34px; letter-spacing:1px;
+    }
+    header p.site-sub{
+      margin:6px 0 0; z-index:2; color:var(--muted);
+      font-size:14px;
     }
 
-    header {
-      background: url("your-photo.jpg") no-repeat center/cover;
-      height: 250px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    /* Top controls (small) */
+    .top-controls{
+      width:100%; display:flex; justify-content:center; gap:12px; padding:10px 12px;
+      background:#101214; border-bottom:1px solid rgba(255,255,255,0.02);
     }
+    .top-controls a{ color:var(--accent); text-decoration:none; font-weight:600; }
+    /* nav */
+    nav{ display:flex; gap:12px; justify-content:center; padding:12px; background:#0b0b0b; border-top:1px solid rgba(255,255,255,0.02);}
+    nav a{ color:var(--accent); text-decoration:none; font-weight:600; }
+    nav a:hover{ color:#fff; text-decoration:underline; }
 
-    header h1 {
-      font-size: 40px;
-      margin: 0;
+    main{ max-width:var(--maxw); margin:24px auto; padding:0 16px; }
+
+    .welcome{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:18px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.6);
+      text-align:center; margin-bottom:18px;
     }
+    .welcome h2{ margin:6px 0; font-size:20px; color:#ffd; }
 
-    nav {
-      background: #222;
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
+    .grid{
+      display:grid; grid-template-columns:1fr 360px; gap:18px;
     }
-
-    nav a {
-      color: #ffcc00;
-      text-decoration: none;
-      font-weight: bold;
+    /* left column */
+    .card{ background:var(--card); padding:14px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.6); }
+    form input[type="text"], form textarea{
+      width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.04);
+      background:#0d0d0d; color:#fff; resize:vertical;
     }
-
-    nav a:hover {
-      color: white;
+    form label{ display:block; font-size:13px; margin:8px 0 6px; color:var(--muted); }
+    .btn{
+      display:inline-block; padding:10px 14px; background:var(--accent); color:#000; font-weight:700; border-radius:8px;
+      border:none; cursor:pointer; margin-top:8px;
     }
+    .btn.secondary{ background:#ffa500; color:#000; margin-left:8px; }
 
-    .welcome {
-      margin: 30px auto;
-      max-width: 700px;
-      background: #222;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(255,255,255,0.1);
-    }
+    /* articles list */
+    .articles-list{ margin-top:12px; }
+    article.item{ margin-bottom:12px; padding:12px; border-radius:8px; background:#0c0c0c; border:1px solid rgba(255,255,255,0.02); }
+    article.item h3{ margin:0 0 6px; font-size:18px; }
+    article.item p{ margin:0 0 8px; color:var(--muted); white-space:pre-wrap; }
+    article.item img{ max-width:100%; border-radius:6px; display:block; margin-top:8px; }
 
-    .article-upload {
-      margin: 30px auto;
-      max-width: 700px;
-      background: #1b1b1b;
-      padding: 20px;
-      border-radius: 10px;
-    }
+    .actions{ margin-top:8px; display:flex; gap:8px; }
+    .actions button{ padding:8px 10px; border-radius:6px; border:none; cursor:pointer; font-weight:600; }
+    .actions .edit{ background:#ffd966; color:#000; }
+    .actions .del{ background:#ff6b6b; color:#000; }
 
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 5px;
-    }
+    /* right column (controls) */
+    .side h3{ margin-top:0; }
+    .preview-header{ height:120px; border-radius:8px; overflow:hidden; background:#111; display:flex; align-items:center; justify-content:center; color:var(--muted); margin-bottom:10px; }
+    .small{ font-size:13px; color:var(--muted); margin-top:6px; }
 
-    button {
-      padding: 10px 20px;
-      background: #ffcc00;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #ffaa00;
+    /* responsive */
+    @media (max-width:900px){
+      .grid{ grid-template-columns: 1fr; }
+      header{ min-height:180px; }
     }
   </style>
 </head>
 <body>
-  <header>
+  <!-- HEADER: background image is set from JS/localStorage -->
+  <header id="siteHeader" role="banner" aria-label="SL ANIME LK header">
+    <div class="overlay"></div>
     <h1>SL ANIME LK</h1>
+    <p class="site-sub">Anime බලන කොල්ලො-කෙල්ලෝ සැට් එක සාදරයෙන් පිළිගන්නෝ 🙌</p>
   </header>
 
-  <nav>
+  <!-- small top quick links -->
+  <div class="top-controls">
+    <a id="link-facebook" href="#" target="_blank">Facebook</a>
+    <a id="link-youtube" href="#" target="_blank">YouTube</a>
+    <a id="link-telegram" href="#" target="_blank">Telegram</a>
+    <a id="link-channel" href="#" target="_blank">My Channel</a>
+  </div>
+
+  <nav role="navigation" aria-label="Main navigation">
     <a href="#">Home</a>
     <a href="#">Anime List</a>
     <a href="#">News</a>
@@ -102,18 +118,279 @@
     <a href="#">Contact</a>
   </nav>
 
-  <div class="welcome">
-    <h2>SL ANIME LK website එකට anime බලන කොල්ලො කෙල්ලො සෙට් එක සාදරයෙන් පිලිගන්නෝ 🙌</h2>
-  </div>
+  <main>
+    <div class="welcome">
+      <h2>SL ANIME LK website එකට anime බලන කොල්ලො කෙල්ලො සෙට් එක සාදරයෙන් පිලිගන්නෝ 🙌</h2>
+    </div>
 
-  <div class="article-upload">
-    <h2>📝 Upload Your Article</h2>
-    <form>
-      <input type="text" placeholder="Article Title" required>
-      <textarea rows="6" placeholder="Write your article here..." required></textarea>
-      <input type="file" accept="image/*">
-      <button type="submit">Publish</button>
-    </form>
-  </div>
+    <div class="grid">
+      <!-- LEFT: article form + list -->
+      <div>
+        <div class="card">
+          <h3>📝 Write & Publish Article</h3>
+          <form id="articleForm">
+            <input type="hidden" id="editIndex" value="">
+            <label for="title">Title</label>
+            <input id="title" type="text" placeholder="Article title" required>
+
+            <label for="content">Content</label>
+            <textarea id="content" rows="6" placeholder="Write your article here..." required></textarea>
+
+            <label for="image">Upload Image (optional)</label>
+            <input id="image" type="file" accept="image/*">
+
+            <div style="margin-top:10px;">
+              <button class="btn" type="submit">Publish</button>
+              <button type="button" id="clearAll" class="btn secondary">Clear All Articles</button>
+            </div>
+            <div class="small">Articles save වෙයි — ඔබගේ browser එකේ (localStorage). Refresh/close කළත් articles තිබේ.</div>
+          </form>
+        </div>
+
+        <div class="card articles-list" id="articlesList">
+          <h3 style="margin-top:0;">Published Articles</h3>
+          <!-- articles go here -->
+        </div>
+      </div>
+
+      <!-- RIGHT: header image upload + links editor -->
+      <aside class="side">
+        <div class="card">
+          <h3>Header Image (Upload)</h3>
+          <div class="preview-header" id="headerPreview">Header preview</div>
+          <input id="headerImage" type="file" accept="image/*">
+          <div class="small">Upload කරන photo එක header background වෙනවා. (Saved locally)</div>
+        </div>
+
+        <div class="card" style="margin-top:12px;">
+          <h3>Update Social Links</h3>
+          <label>Facebook URL</label>
+          <input id="inpFacebook" type="text" placeholder="https://facebook.com/yourpage">
+          <label>YouTube URL</label>
+          <input id="inpYoutube" type="text" placeholder="https://youtube.com/yourchannel">
+          <label>Telegram URL</label>
+          <input id="inpTelegram" type="text" placeholder="https://t.me/yourchannel">
+          <label>Channel/Other</label>
+          <input id="inpChannel" type="text" placeholder="https://...">
+          <div style="margin-top:10px;">
+            <button id="saveLinks" class="btn">Save Links</button>
+          </div>
+          <div class="small">Save කරන ලිපි GitHub Pages/others වලට publish කළත් browser-local data වෙනවා. (ඔබට server අවශ්‍ය නම් දැනුම් දෙන්න)</div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    // Helper: getItem / setItem with safe JSON
+    const store = {
+      get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } },
+      set(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
+    };
+
+    // DOM refs
+    const articleForm = document.getElementById('articleForm');
+    const titleInput = document.getElementById('title');
+    const contentInput = document.getElementById('content');
+    const imageInput = document.getElementById('image');
+    const articlesList = document.getElementById('articlesList');
+    const editIndexInput = document.getElementById('editIndex');
+
+    // header image
+    const headerFile = document.getElementById('headerImage');
+    const headerEl = document.getElementById('siteHeader');
+    const headerPreview = document.getElementById('headerPreview');
+
+    // links
+    const inpFacebook = document.getElementById('inpFacebook');
+    const inpYoutube = document.getElementById('inpYoutube');
+    const inpTelegram = document.getElementById('inpTelegram');
+    const inpChannel = document.getElementById('inpChannel');
+    const saveLinksBtn = document.getElementById('saveLinks');
+
+    // top link anchors
+    const linkFacebook = document.getElementById('link-facebook');
+    const linkYoutube = document.getElementById('link-youtube');
+    const linkTelegram = document.getElementById('link-telegram');
+    const linkChannel = document.getElementById('link-channel');
+
+    // Clear all button
+    const clearAllBtn = document.getElementById('clearAll');
+
+    // Load on start
+    function init(){
+      const articles = store.get('sl_articles') || [];
+      renderArticles(articles);
+
+      // load header image if any
+      const headerData = store.get('sl_header');
+      if(headerData && headerData.image){
+        setHeaderBackground(headerData.image);
+      } else {
+        headerPreview.textContent = 'Header preview';
+      }
+
+      // load links
+      const links = store.get('sl_links') || {};
+      inpFacebook.value = links.facebook || '';
+      inpYoutube.value = links.youtube || '';
+      inpTelegram.value = links.telegram || '';
+      inpChannel.value = links.channel || '';
+
+      updateTopLinks();
+    }
+
+    // Render articles
+    function renderArticles(arr){
+      // clear except title
+      articlesList.innerHTML = '<h3 style="margin-top:0;">Published Articles</h3>';
+      if(!arr.length){
+        const p = document.createElement('div');
+        p.style.color = 'var(--muted)';
+        p.style.padding = '12px';
+        p.textContent = 'No articles yet. Create one from the form above.';
+        articlesList.appendChild(p);
+        return;
+      }
+      arr.forEach((a,i)=>{
+        const art = document.createElement('article');
+        art.className = 'item';
+        art.innerHTML = `<h3>${escapeHtml(a.title)}</h3>
+                         <p>${escapeHtml(a.content)}</p>`;
+        if(a.image){
+          const img = document.createElement('img');
+          img.src = a.image;
+          art.appendChild(img);
+        }
+        const actions = document.createElement('div');
+        actions.className = 'actions';
+        const editBtn = document.createElement('button');
+        editBtn.className = 'edit';
+        editBtn.textContent = 'Edit';
+        editBtn.onclick = ()=> loadForEdit(i);
+        const delBtn = document.createElement('button');
+        delBtn.className = 'del';
+        delBtn.textContent = 'Delete';
+        delBtn.onclick = ()=> removeArticle(i);
+        actions.appendChild(editBtn);
+        actions.appendChild(delBtn);
+        art.appendChild(actions);
+        articlesList.appendChild(art);
+      });
+    }
+
+    // Escape to avoid simple injection
+    function escapeHtml(text){
+      return String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+    }
+
+    // Form submit
+    articleForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const title = titleInput.value.trim();
+      const content = contentInput.value.trim();
+      const file = imageInput.files[0];
+      if(!title || !content) return alert('Title හා content දෙකම වෙලඳ.');
+
+      let imgData = null;
+      if(file){
+        imgData = await fileToDataURL(file);
+      }
+
+      const idx = editIndexInput.value;
+      let arr = store.get('sl_articles') || [];
+      if(idx){
+        // update
+        arr[idx] = { title, content, image: imgData || arr[idx].image || null };
+        store.set('sl_articles', arr);
+        editIndexInput.value = '';
+      } else {
+        // push
+        arr.push({ title, content, image: imgData || null });
+        store.set('sl_articles', arr);
+      }
+      articleForm.reset();
+      renderArticles(arr);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // file to dataURL
+    function fileToDataURL(file){
+      return new Promise((res,rej)=>{
+        const reader = new FileReader();
+        reader.onload = ()=> res(reader.result);
+        reader.onerror = ()=> rej('file read err');
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // load for edit
+    function loadForEdit(index){
+      const arr = store.get('sl_articles') || [];
+      const a = arr[index];
+      if(!a) return;
+      titleInput.value = a.title;
+      contentInput.value = a.content;
+      editIndexInput.value = index;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // remove
+    function removeArticle(index){
+      if(!confirm('This will delete the article. Continue?')) return;
+      let arr = store.get('sl_articles') || [];
+      arr.splice(index,1);
+      store.set('sl_articles', arr);
+      renderArticles(arr);
+    }
+
+    // clear all
+    clearAllBtn.addEventListener('click', ()=>{
+      if(!confirm('Delete ALL saved articles?')) return;
+      localStorage.removeItem('sl_articles');
+      renderArticles([]);
+    });
+
+    // header image upload
+    headerFile.addEventListener('change', async (e)=>{
+      const f = e.target.files[0];
+      if(!f) return;
+      const data = await fileToDataURL(f);
+      store.set('sl_header', { image: data });
+      setHeaderBackground(data);
+    });
+
+    function setHeaderBackground(dataUrl){
+      headerEl.style.backgroundImage = `url("${dataUrl}")`;
+      headerPreview.style.backgroundImage = `url("${dataUrl}")`;
+      headerPreview.style.backgroundSize = 'cover';
+      headerPreview.style.backgroundPosition = 'center';
+      headerPreview.textContent = '';
+    }
+
+    // links save
+    saveLinksBtn.addEventListener('click', ()=>{
+      const links = {
+        facebook: inpFacebook.value.trim(),
+        youtube: inpYoutube.value.trim(),
+        telegram: inpTelegram.value.trim(),
+        channel: inpChannel.value.trim()
+      };
+      store.set('sl_links', links);
+      updateTopLinks();
+      alert('Links saved locally.');
+    });
+
+    function updateTopLinks(){
+      const links = store.get('sl_links') || {};
+      linkFacebook.href = links.facebook || '#';
+      linkYoutube.href = links.youtube || '#';
+      linkTelegram.href = links.telegram || '#';
+      linkChannel.href = links.channel || '#';
+    }
+
+    // init
+    init();
+  </script>
 </body>
 </html>
