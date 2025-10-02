@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SL ANIME LK</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
-  body {margin:0;font-family:'Poppins',sans-serif;background:#111;color:#fff;text-align:center;}
-  header {background:url("your-photo.jpg") no-repeat center/cover;height:250px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;text-shadow:2px 2px 8px rgba(0,0,0,0.7);}
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+  body{margin:0;font-family:'Poppins',sans-serif;background:#111;color:#fff;text-align:center;}
+  header{background:url("your-photo.jpg") no-repeat center/cover;height:250px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;text-shadow:2px 2px 8px rgba(0,0,0,0.7);}
   header h1{font-size:40px;margin:0;}
   .welcome{margin:30px auto;max-width:700px;background:#222;padding:20px;border-radius:10px;box-shadow:0 0 15px rgba(255,255,255,0.1);}
   .article-upload,.articles{margin:30px auto;max-width:700px;background:#1b1b1b;padding:20px;border-radius:10px;}
@@ -27,16 +27,7 @@
   <h2>SL ANIME LK website එකට anime බලන කොල්ලො කෙල්ලො සෙට් එක සාදරයෙන් පිලිගන්නෝ 🙌</h2>
 </div>
 
-<!-- Password Input -->
-<div class="article-upload" id="passwordBox">
-  <h2>🔑 Admin Login</h2>
-  <input type="password" id="adminPass" placeholder="Enter Admin Password">
-  <button onclick="checkPass()">Login</button>
-  <p id="loginMessage" style="color:red;"></p>
-</div>
-
-<!-- Upload Form -->
-<div class="article-upload" id="uploadBox" style="display:none;">
+<div class="article-upload">
   <h2>📝 Upload Your Article</h2>
   <form id="articleForm">
     <input type="text" id="title" placeholder="Article Title" required>
@@ -51,73 +42,72 @@
 </div>
 
 <script>
-  const ADMIN_PASSWORD = "chanishka2005";
-  const uploadBox = document.getElementById('uploadBox');
-  const passwordBox = document.getElementById('passwordBox');
-  const loginMessage = document.getElementById('loginMessage');
+const form = document.getElementById("articleForm");
+const articlesDiv = document.getElementById("articles");
+const articlesList = [];
 
-  function checkPass(){
-    const pass = document.getElementById('adminPass').value;
-    if(pass === ADMIN_PASSWORD){
-      uploadBox.style.display = 'block';
-      passwordBox.style.display = 'none';
-      loginMessage.textContent = '';
-    } else {
-      loginMessage.textContent = '❌ Wrong password!';
-    }
+function saveArticles(){
+  localStorage.setItem('articles', JSON.stringify(articlesList));
+}
+
+function loadArticles(){
+  const saved = localStorage.getItem('articles');
+  if(saved){
+    const arr = JSON.parse(saved);
+    arr.forEach(a=>{
+      addArticleToDOM(a.title, a.content, a.image);
+      articlesList.push(a);
+    });
+  }
+}
+
+function addArticleToDOM(title, content, image){
+  const articleDiv = document.createElement("div");
+  articleDiv.classList.add("article");
+
+  const articleTitle = document.createElement("h3");
+  articleTitle.textContent = title;
+
+  const articleContent = document.createElement("p");
+  articleContent.textContent = content;
+
+  articleDiv.appendChild(articleTitle);
+  articleDiv.appendChild(articleContent);
+
+  if(image){
+    const img = document.createElement("img");
+    img.src = image;
+    articleDiv.appendChild(img);
   }
 
-  const form = document.getElementById("articleForm");
-  const articlesDiv = document.getElementById("articles");
+  articlesDiv.appendChild(articleDiv);
+}
 
-  // Save articles to LocalStorage
-  function saveArticles(){
-    localStorage.setItem('articles', articlesDiv.innerHTML);
-  }
+form.addEventListener("submit", function(event){
+  event.preventDefault();
+  const title = document.getElementById("title").value;
+  const content = document.getElementById("content").value;
+  const imageFile = document.getElementById("imageInput").files[0];
 
-  // Load saved articles
-  function loadArticles(){
-    const saved = localStorage.getItem('articles');
-    if(saved){
-      articlesDiv.innerHTML = "<h2>📖 Published Articles</h2>" + saved.replace(/<h2>📖 Published Articles<\/h2>/, "");
-    }
-  }
-
-  form.addEventListener("submit", function(event){
-    event.preventDefault();
-    const title = document.getElementById("title").value;
-    const content = document.getElementById("content").value;
-    const imageInput = document.getElementById("imageInput").files[0];
-
-    const articleDiv = document.createElement("div");
-    articleDiv.classList.add("article");
-
-    const articleTitle = document.createElement("h3");
-    articleTitle.textContent = title;
-
-    const articleContent = document.createElement("p");
-    articleContent.textContent = content;
-
-    articleDiv.appendChild(articleTitle);
-    articleDiv.appendChild(articleContent);
-
-    if(imageInput){
-      const reader = new FileReader();
-      reader.onload = function(e){
-        const img = document.createElement("img");
-        img.src = e.target.result;
-        articleDiv.appendChild(img);
-        saveArticles();
-      };
-      reader.readAsDataURL(imageInput);
-    }
-
-    articlesDiv.appendChild(articleDiv);
+  if(imageFile){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      const imageData = e.target.result;
+      articlesList.push({title, content, image: imageData});
+      saveArticles();
+      addArticleToDOM(title, content, imageData);
+    };
+    reader.readAsDataURL(imageFile);
+  } else {
+    articlesList.push({title, content, image: null});
     saveArticles();
-    form.reset();
-  });
+    addArticleToDOM(title, content, null);
+  }
 
-  window.onload = loadArticles;
+  form.reset();
+});
+
+window.onload = loadArticles;
 </script>
 </body>
 </html>
